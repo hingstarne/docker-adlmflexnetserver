@@ -1,5 +1,5 @@
-FROM centos:centos6
-MAINTAINER hays.clark@gmail.com
+FROM ubuntu:22.04
+MAINTAINER hingst@tum.de
 
 #########################################
 ##             CONSTANTS               ##
@@ -20,14 +20,18 @@ ENV PATH="${PATH}:/opt/flexnetserver/"
 #########################################
 ADD /files /usr/local/bin
 
-RUN yum update -y && yum install -y \
-    redhat-lsb-core \
-    wget && \
-    yum clean all
+# Updating apt cache and installing necessary packages
+RUN apt-get update -y && apt-get install -y \
+    lsb-release \
+    lsb-core \
+    wget \
+    fakeroot \
+    alien && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* 
 
 RUN mkdir -p ${TEMP_PATH} && cd ${TEMP_PATH} && \
     wget --progress=bar:force ${NLM_URL} && \
-    tar -zxvf *.tar.gz && rpm -vhi *.rpm && \
+    tar -zxvf *.tar.gz && fakeroot alien -i *.rpm && \
     rm -rf ${TEMP_PATH}
 
 # lmadmin is required for -2 -p flag support
