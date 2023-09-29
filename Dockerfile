@@ -36,7 +36,9 @@ RUN mkdir -p ${TEMP_PATH} && cd ${TEMP_PATH} && \
 
 # lmadmin is required for -2 -p flag support
 RUN groupadd -r lmadmin && \
-    useradd -r -g lmadmin lmadmin
+    useradd -r -g lmadmin lmadmin && \
+    mkdir /usr/tmp && \
+    chmod -R 7777 /usr/tmp
 
 #########################################
 ##              VOLUMES                ##

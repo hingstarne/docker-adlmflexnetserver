@@ -15,7 +15,7 @@ The container does expect the user to map a local license file to within the __/
     -h [LICENSE_HOSTNAME] \
     -v [LOCAL_LICENSE_PATH]:/var/flexlm/adsk_server.lic:ro \
     -p 2080:2080 -p 27000-27009:27000-27009 \
-    haysclark/adlmflexnetserver
+    hingstarne/adlmflexnetserver
     -c /var/flexlm/adsk_server.lic
 
  Alternatively, you can map a local folder containing multiple keys to the __/var/flexlm__ directory.
@@ -24,7 +24,7 @@ The container does expect the user to map a local license file to within the __/
     -h [LICENSE_HOSTNAME] \
     -v [LOCAL_LICENSE_FOLDER_PATH]:/var/flexlm \
     -p 2080:2080 -p 27000-27009:27000-27009 \
-    haysclark/adlmflexnetserver
+    hingstarne/adlmflexnetserver
     -c /var/flexlm/license_file_1:/var/flexlm/license_file_2
 
 ### Logging
