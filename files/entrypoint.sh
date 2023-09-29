@@ -38,7 +38,16 @@ lmutil lmhostid
 PRINT_LINEBREAK
 echo ""
 
-# forward all command line arguments to lmgrd
-# NOTE: lmgrd -z flag is required to 'Run in foreground.' so that
-#       Docker will not start sleeping regardless flags.
-lmgrd -z $@
+# If no arguments are given, use the license files under /var/flexlm/
+if [ "$#" -eq 0 ]; then
+    LICENSE_FILES=$(find /var/flexlm/ -type f -print | tr '\n' ':' | sed 's/:$//')
+    if [ -z "$LICENSE_FILES" ]; then
+        echo "No license files found in /var/flexlm/"
+        exit 1
+    fi
+    # forward the concatenated license files to lmgrd
+    lmgrd -z $LICENSE_FILES
+else
+    # forward all command line arguments to lmgrd
+    lmgrd -z $@
+fi
